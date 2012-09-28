@@ -1,10 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=BIG5">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; Charset=big5" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" 
+src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+  var MarkerIndex = 0;
+  var MarkerAry = [];
+  var CenterPoint = new google.maps.LatLng(24.17868, 120.64856);
+  var map;
+	
+  function initialize() {
+    var latlng = CenterPoint;
+    var myOptions = {
+    	  zoom: 15,
+          maxZoom: 18,
+          minZoom: 10,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+    	  panControl: true,
+          panControlOptions: {
+              position: google.maps.ControlPosition.TOP_RIGHT
+          },
+    	  zoomControl: true,
+    	  zoomControlOptions: {
+              style: google.maps.ZoomControlStyle.SMALL,
+              position: google.maps.ControlPosition.TOP_RIGHT
+    	  },
+    	  scaleControl: true,	    
+          scaleControlOptions: {
+              position: google.maps.ControlPosition.TOP_LEFT
+          },
+    	  mapTypeControl: true,
+    	  mapTypeControlOptions: {
+       		    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+       		    position: google.maps.ControlPosition.BOTTOM
+    	  },	
+    	  streetViewControl: true,
+          streetViewControlOptions: {
+              position: google.maps.ControlPosition.LEFT_TOP
+          }    
+    };
+
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);  
+
+    var latlng= new google.maps.Marker({
+        position: CenterPoint,
+        map: map,
+        icon: "Ironman-Flying.png"
+    });
+    
+    $.ajax({
+        url: "./json.json",
+        type: "GET",
+        dataType: "json",
+        success: function(Jdata){
+            $.each(Jdata.results, function(i){
+            	var latlngs = new google.maps.LatLng(
+            		 parseFloat(Jdata.results[i].geometry.location.lat),
+            		 parseFloat(Jdata.results[i].geometry.location.lng));
+            	new google.maps.Marker({
+            		position: latlngs,
+            		map: map,
+            		icon: Jdata.results[i].icon,
+            		title:(Jdata.results[i].name + "地址:" +Jdata.results[i].vicinity)
+            	})	
+            });
+        },
+        error: function(){
+            alert("ERROR!!");
+        }
+    });
+  }
+  
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 </head>
-<body>
-Hello World!
+<body>	
+  <div id="map_canvas"></div>
 </body>
 </html>

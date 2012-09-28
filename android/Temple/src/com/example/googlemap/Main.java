@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -11,9 +12,9 @@ import android.widget.RadioButton;
 public class Main extends Activity {
 
 	private LocationManager mLocationManager;
-	private EditText editText1;
-	private RadioButton radiobutton1;
-	private Button button1;
+	private EditText mEditText;
+	private RadioButton mRadiobutton;
+	private Button mButton;
 	private WebView mWebView;
 	
     @Override
@@ -21,13 +22,21 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        radiobutton1 = (RadioButton)findViewById(R.id.radioButton1);
-        editText1 = (EditText)findViewById(R.id.editText1);
-        button1 = (Button)findViewById(R.id.button1);
+        mRadiobutton = (RadioButton)findViewById(R.id.radioButton1);
+        mEditText = (EditText)findViewById(R.id.editText1);
+        mButton = (Button)findViewById(R.id.button1);
         mWebView = (WebView)findViewById(R.id.webView1);
+        mWebView.getSettings().setJavaScriptEnabled(true);
         
-        mWebView.loadUrl("http://192.168.0.229:8080/TempleWeb/googlemap.html");
+        mWebView.loadUrl("http://192.168.31.1:8080/TempleWeb/googlemap.html");
+        
+        mWebView.setWebViewClient(new MyWebViewClient());
         
     }
-
+    private class MyWebViewClient extends WebViewClient{
+    	public boolean shouldOverrideUrlLoadin(WebView view , String url){
+    		view.loadUrl(url);
+    		return true;
+    	}
+    }
 }

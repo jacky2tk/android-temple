@@ -1,0 +1,65 @@
+{
+   "html_attributions" : [
+      "商家資訊提供者：\u003ca href=\"http://www.kingwaytek.com/\"\u003eKingway\u003c/a\u003e"
+   ],
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 24.1654520,
+               "lng" : 120.6438020
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+         "id" : "260e44c56c6f1e516f815217b0d24f6e96ef97e7",
+         "name" : "Starbucks統一星巴克",
+         "reference" : "CoQBdQAAAJc0egeB66ojzDTpO6yJ9IXOql4HotKXxPZ9s9cungIRVQGHmZU-rCNSXhMvtp_ogN2qpOnO3hGhZToidhW-pkS_5mccrsSLJz1dt5gWVlNAnZVjJUbs95K_JrU0IDWkDO_b0ytIqukZPqr6r65lezDkBSwA9OtdnMi-Twb6gM-2EhA7gFd4T8Vj7gQuZWEykneBGhQu5k_GmbXMqGBMiT16OD0BARJ1XQ",
+         "types" : [ "cafe", "food", "establishment" ],
+         "vicinity" : "西屯區台中港路二段111號"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 24.1681170,
+               "lng" : 120.6537480
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+         "id" : "8e94fe9723e7d1e682155f5afd59f477d3da5d45",
+         "name" : "統一星巴克櫻花門市",
+         "rating" : 4.20,
+         "reference" : "CoQBeQAAAGNtSEa2-w1MGbjDa4ngXYcVauHSOQ8lgp2lq8eln_hJDZfkAA6gYuAOUyuPrMj_cGuxnNcQVroCN-DnpHY12C0PZ5bDCDYYEDqlskXoXvh_7WESWeCK9fkPrveixdQdEBIARuSWdSdqwjphscMhB-izav7xS6UyNMhwIuQwkMIfEhC029DlM7To4MhLy8FdrymxGhRpwJzbxPAAxfYvvZsewfzIZ6zOyA",
+         "types" : [ "cafe", "food", "establishment" ],
+         "vicinity" : "西屯區櫻花路1號"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 24.1654520,
+               "lng" : 120.6438020
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+         "id" : "cc5f4a84f70557f5dae20acaf92aabc0c1145a9d",
+         "name" : "統一星巴克三越一店",
+         "reference" : "CoQBeQAAAKpm_ZkO5YXihm2POBB108XcDbOI9UrncgSQMYRL-9mBmByJAQTCFi3nHVjX6V2bQhUjYCmnd9i74hOQJeIRMykBQDPqmW3DCxXtwfERyjOun72CQDmEqRHIPx2rqzxsc7yB4v1gCv-KjSaKAby9NhqKuP8i9A8FW883JDiUf-HSEhA90is0ml3UOdV7fRGjbfjbGhSfQEVlzd7g_iRLVyxI_wumMs3eLw",
+         "types" : [ "cafe", "food", "establishment" ],
+         "vicinity" : "台中市西區台中港路一段111號3樓"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 24.1654520,
+               "lng" : 120.6438020
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+         "id" : "5d5e069cfb99bada9c57ec28dc59923bbe6b2071",
+         "name" : "統一星巴克三越二店",
+         "reference" : "CoQBeAAAABP2vLKcsTvEDC9Mmuu0hNQGE5HpJnh21t6mz0t7Q38Twx2AM16UurJlq3BG50BszcRyfyfO__GTe7_BX2-7Qse_zuRWOHM-mqeqaFX2B1Wnhe5hykT87BEb-o33LkUEfJthXcjjW0q7pZrNADT0NUuXiwr1-8oyLYC_t0DYaEB9EhBH97z7F-GpO-4vUprdMiaMGhSrgB7nt9bEd3u9Wi8cnz7mD6mxIQ",
+         "types" : [ "establishment" ],
+         "vicinity" : "西屯區台中港路二段111號"
+      }
+   ],
+   "status" : "OK"
+}
