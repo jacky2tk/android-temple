@@ -1,0 +1,55 @@
+<?php
+//--------連結通道,也選用了資料庫
+function uconnect($lc_db){
+	/* 定義連接資料庫的有關參數  此define()函數所傳回的是常數,是不可變的數*/
+    /*define('DB_USER', 'lib13'); 
+    define('DB_PASSWORD', 'mypassword');
+    define('DB_HOST', 'localhost');
+    define('DB_DATABASE', 'lib13'); */
+	$servername = "localhost" ;
+	//東王$username = "root" ;
+		//$password = "9957!!@@##" ;
+	//需尼
+	/*	$username = "aigulic2" ;
+		$password = "9957!!@@##" ;*/
+		$username = "enter30" ;
+		$password = "ACE7880903zor" ;
+	//連結資料庫
+	$link = mysql_connect($servername,$username,$password)
+		or die("無法連接資料庫".mysql_error()) ;
+	//選用資料庫	
+	$select = mysql_select_db($lc_db,$link)
+		or die("無法選用資料庫".mysql_error()) ;
+	return $link ;	
+}
+
+function ucode($ln_link="NOPARAMETERS"){
+	
+	if($ln_link=="NOPARAMETERS"){
+	//	mysql_query("SET NAMES 'big5'") ;
+	}
+	else{
+	//	mysql_query("SET NAMES 'big5'",$ln_link) ;
+	}
+}
+function uconnect_web2($lc_name,$lc_str){
+//$lc_name為通道名稱
+//$ln_i為識別代號;另如 sql,mysql,odbc....等
+	if($lc_str=="odbc"){//代表為odbc的通道
+		$m_link=odbc_connect($lc_name,"","");//為回傳值
+	}
+	if($lc_str=="mysql"){//代表為odbc的通道
+		$servername = "localhost";
+		$username = "enter30" ;
+		$password = "CARZX6032" ;
+		//連結資料庫
+		$m_link = mysql_connect($servername,$username,$password)
+			or die("無法連接資料庫".mysql_error()) ;
+		//選用資料庫	
+		$select = mysql_select_db($lc_name,$m_link)
+			or die("無法選用資料庫".mysql_error()) ;
+	}
+	return $m_link;
+}
+?>	
+
