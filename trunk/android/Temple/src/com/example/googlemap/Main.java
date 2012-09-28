@@ -26,7 +26,7 @@ public class Main extends Activity {
         button1 = (Button)findViewById(R.id.button1);
         mWebView = (WebView)findViewById(R.id.webView1);
         
-        mWebView.loadUrl("http://192.168.0.227:8080/AndroidWeb/googlemap.html");
+        mWebView.loadUrl("http://192.168.0.229:8080/TempleWeb/googlemap.html");
         
     }
 
