@@ -1,0 +1,18 @@
+#map_canvas {
+    height: 100%;
+    float: left;
+    width: 100%;
+    overflow: auto;
+    margin:0px; 
+    padding:0px;
+}
+#directions-panel {
+    height: 300px;
+    width: 300px;
+}
+.lab {
+    width: 80px;
+}
+.txt input {
+    width: 250px;
+}
