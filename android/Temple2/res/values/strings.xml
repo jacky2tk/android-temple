@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Temple2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Temple2</string>
+    <string name="server_ip">192.168.0.101</string>
+    <string name="Lab_CenterPoint">目前位置:</string>
+    <string name="Lab_Radias">方圓幾公尺:</string>
+
+</resources>
