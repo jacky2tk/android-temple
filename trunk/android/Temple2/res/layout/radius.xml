@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <EditText
+        android:id="@+id/Txt_Radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/Lab_Radius"
+        android:ems="10"
+        android:inputType="numberSigned"
+        android:textColor="@color/white" 
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <requestFocus />
+    </EditText>
+
+    <SeekBar
+        android:id="@+id/seekBar_radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/Txt_Radius" />
+
+    <TextView
+        android:id="@+id/Lab_Radius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Txt_Radius"
+        android:layout_alignBottom="@+id/Txt_Radius"
+        android:layout_alignParentLeft="true"
+        android:text="@string/Lab_Radias"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
