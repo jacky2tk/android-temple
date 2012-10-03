@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -44,14 +46,14 @@ public class Main extends MapActivity implements LocationListener {
 	private LocationManager mLocationManager;
 	private ImageView imgWiFi, imgGPS;
 	private EditText edtSearch;
-	private Button btnSearch, btnSetting;
+	private ImageButton imgSearch, imgSetting;
 	
 	private SharedPreferences settings;
 	String bestProvider = "network";
 	private Location CenterPoint = null;
 	private String PlaceJSON = "";
 	private GeoPoint MapCenter;
-
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);     
@@ -61,8 +63,8 @@ public class Main extends MapActivity implements LocationListener {
         imgWiFi = (ImageView)findViewById(R.id.imgWiFi);
         imgGPS = (ImageView)findViewById(R.id.imgGPS);
         edtSearch = (EditText)findViewById(R.id.edtSearch);
-        btnSearch = (Button)findViewById(R.id.btnSearch);
-        btnSetting = (Button)findViewById(R.id.btnSetting);
+        imgSearch = (ImageButton)findViewById(R.id.imgSearch);
+        imgSetting = (ImageButton)findViewById(R.id.imgSetting);
         mapView = (MapView)findViewById(R.id.mapview);
         
         settings = getSharedPreferences(Setting.SETTINGS, 0);
@@ -99,10 +101,10 @@ public class Main extends MapActivity implements LocationListener {
         	CenterPoint = mLocationManager.getLastKnownLocation(bestProvider);
         	
         	// 若無法取得定位, 改定位到上益電腦
-        	// 上益電腦: 24.2557, 120.7205        	
+        	// 上益電腦: 24.25164, 120.72034        	
         	if (CenterPoint == null) {
-        		CenterPoint.setLatitude(24.2557);
-        		CenterPoint.setLongitude(120.7205);
+        		CenterPoint.setLatitude(24.25164);
+        		CenterPoint.setLongitude(120.72034);
         	}
         	
         	// --------------------------------------------------------------------------
@@ -118,13 +120,13 @@ public class Main extends MapActivity implements LocationListener {
 			
 			// 建立中心點圖層, 設定中心點圖示
 			MyItemizedOverlay CenterMapOverlay = new MyItemizedOverlay(
-					getResources().getDrawable(R.drawable.batman),
+					getResources().getDrawable(R.drawable.cp),
 					Main.this);
 			
-			OverlayItem CenterOverlay = new OverlayItem(MapCenter, "", "");	// 建立中心點地標
+			OverlayItem CenterOverlay = new OverlayItem(MapCenter, "cp", "目前位置");	// 建立中心點地標
 			CenterMapOverlay.addOverlay(CenterOverlay);		// 將中心點地標加到圖層
 			mapView.getOverlays().add(CenterMapOverlay);	// 將圖層加到 MapView
-        	
+			
         	 
         } else {
         	Toast.makeText(this, "請開啟定位服務", Toast.LENGTH_LONG).show();
@@ -132,7 +134,7 @@ public class Main extends MapActivity implements LocationListener {
         }
         
         // 按鈕：搜尋
-        btnSearch.setOnClickListener(new OnClickListener() {
+        imgSearch.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				Thread thread = new Thread(new Runnable() {
@@ -155,7 +157,7 @@ public class Main extends MapActivity implements LocationListener {
 		});
         
         // 按鈕：設定
-        btnSetting.setOnClickListener(new OnClickListener() {
+        imgSetting.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				Intent intent = new Intent(Main.this, Setting.class);
@@ -168,27 +170,37 @@ public class Main extends MapActivity implements LocationListener {
 	private Runnable SearchSB = new Runnable() {
 
 		public void run() {
+			// 神祇圖形陣列
+			int[] imgGodAry = {R.drawable.god_1, R.drawable.god_2, R.drawable.god_3,
+							   R.drawable.god_4, R.drawable.god_5, R.drawable.god_6,
+							   R.drawable.god_7, R.drawable.god_8, R.drawable.god_9,
+							   R.drawable.god_10, R.drawable.god_11, R.drawable.god_12,
+							   R.drawable.god_13, R.drawable.god_14, R.drawable.god_15,
+							   R.drawable.god_16, R.drawable.god_17, R.drawable.god_18,
+							   R.drawable.god_19};
+			
+			mapView.getOverlays().clear();	// 清除所有圖層
 			
 			// --------------------------------------------------------------------------
-						// 建立圖層, 產生中心地圖
-						
-						// 指定地圖中心點座標
-						GeoPoint MapCenter = new GeoPoint(
-								(int)(CenterPoint.getLatitude() * 1e6),
-								(int)(CenterPoint.getLongitude() * 1e6));
-						
-						// 設定地圖中心點
-						mapView.getController().setCenter(MapCenter);
-						
-						// 建立中心點圖層, 設定中心點圖示
-						MyItemizedOverlay CenterMapOverlay = new MyItemizedOverlay(
-								getResources().getDrawable(R.drawable.batman),
-								Main.this);
-						
-						OverlayItem CenterOverlay = new OverlayItem(MapCenter, "", "");	// 建立中心點地標
-						CenterMapOverlay.addOverlay(CenterOverlay);		// 將中心點地標加到圖層
-						mapView.getOverlays().add(CenterMapOverlay);	// 將圖層加到 MapView
-						
+			// 建立圖層, 產生中心地圖
+			
+			// 指定地圖中心點座標
+			GeoPoint MapCenter = new GeoPoint(
+					(int)(CenterPoint.getLatitude() * 1e6),
+					(int)(CenterPoint.getLongitude() * 1e6));
+			
+			// 設定地圖中心點
+			mapView.getController().setCenter(MapCenter);
+			
+			// 建立中心點圖層, 設定中心點圖示
+			MyItemizedOverlay CenterMapOverlay = new MyItemizedOverlay(
+					getResources().getDrawable(R.drawable.cp),
+					Main.this);
+			
+			OverlayItem CenterOverlay = new OverlayItem(MapCenter, "cp", "目前位置");	// 建立中心點地標
+			CenterMapOverlay.addOverlay(CenterOverlay);		// 將中心點地標加到圖層
+			mapView.getOverlays().add(CenterMapOverlay);	// 將圖層加到 MapView
+			
 			// --------------------------------------------------------------------------
 			// 建立新的圖層, 放找到的地標
 			Map<String, Object> gsonData = new LinkedHashMap();
@@ -197,13 +209,15 @@ public class Main extends MapActivity implements LocationListener {
 			if (!((String) gsonData.get("status")).equals("OK")) {
 				// 找不到任何點
 				Toast.makeText(Main.this, "無符合的資料", Toast.LENGTH_LONG).show();
-            } else {
+            } else { 	
+            	
             	// 建立一個新圖層
+    			//ArrayList<MyItemizedOverlay> overlays = new ArrayList<MyItemizedOverlay>();
             	MyItemizedOverlay ItemMapOverlay = new MyItemizedOverlay(
-                		getResources().getDrawable(R.drawable.batman_logo), 
+                		getResources().getDrawable(R.drawable.god_1), 
                 		Main.this);
-						
-				ItemMapOverlay.setCenter(MapCenter);
+    			ItemMapOverlay.setCenter(MapCenter);
+    			//overlays.add(ItemMapOverlay);
             	
             	// 將搜尋回傳結果放到 List
 			    List result = (List) gsonData.get("results");
@@ -212,6 +226,7 @@ public class Main extends MapActivity implements LocationListener {
 			    for (int i = 0; i < result.size(); i++) {
 				    Map<String, Object> res = (Map<String, Object>) result.get(i);
 				 
+				    // 取出座標
 					Map<String, Map<String, Object>> geom =
                         (Map<String, Map<String, Object>>) res.get("geometry");
                 
@@ -219,13 +234,17 @@ public class Main extends MapActivity implements LocationListener {
                     Double lat = (Double) loc.get("lat");
                     Double lng = (Double) loc.get("lng");
 
+                    // 將地標加到圖層中
                     GeoPoint PlaceGeo = new GeoPoint(
     					(int)(lat * 1e6), 
     					(int)(lng * 1e6));
-    			    OverlayItem PlaceOverlay = new OverlayItem(PlaceGeo, (String) res.get("name"), (String) res.get("address"));
-    			    ItemMapOverlay.addOverlay(PlaceOverlay);
+    			    OverlayItem PlaceOverlay = new OverlayItem(
+    			    		PlaceGeo, (String) res.get("name"), (String) res.get("god"));
+    			    int imgIdx = Integer.parseInt(res.get("icon").toString()) - 1;
+    			    ItemMapOverlay.addOverlay(
+    			    		PlaceOverlay, getResources().getDrawable(imgGodAry[imgIdx]));
     			    
-    			    System.out.println(String.valueOf(i) + ". " + res.get("name"));
+    			    //System.out.println(String.valueOf(i+1) + ". " + res.get("name"));
 			    }
 			    
 			    // 將圖層加到 MapView

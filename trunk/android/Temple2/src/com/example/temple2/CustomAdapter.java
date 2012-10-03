@@ -140,6 +140,7 @@ public class CustomAdapter extends BaseAdapter {
     	     if (SeekView.getProgress() == 0 || 
     	         SeekView.getProgress() == Integer.parseInt(radius)) {
 	    	     TxtView.setText(radius);
+	    	     TxtView.setTextColor(res.getColor(android.R.color.holo_blue_bright));
 	    	     SeekView.setMax((Integer)ItemInfo.get("MaxRadius"));
 	    	     SeekView.setProgress(Integer.parseInt(radius));
     	     }

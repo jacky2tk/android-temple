@@ -31,20 +31,18 @@
 
             <requestFocus />
         </EditText>
-
-        <Button
-            android:id="@+id/btnSearch"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜尋" />
-
-        <Button
-            android:id="@+id/btnSetting"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="設定" />
+
+        <ImageButton
+            android:id="@+id/imgSearch"
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:src="@android:drawable/ic_menu_search" />
+
+        <ImageButton
+            android:id="@+id/imgSetting"
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:src="@android:drawable/ic_menu_manage" />
 
     </LinearLayout>
     
@@ -53,6 +51,6 @@
 	    android:id="@+id/mapview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:apiKey="0RUY9eKj-gQPgHzUSNVlKKXTU-2HAxqAjKoke8g" />
+	    android:apiKey="0RUY9eKj-gQMWVVovn5bqtTH0VBsd3sU1nz_dNA" />
 	
 </LinearLayout>
