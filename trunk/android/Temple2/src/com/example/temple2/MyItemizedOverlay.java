@@ -37,11 +37,16 @@ public class MyItemizedOverlay extends ItemizedOverlay {
 		populate();
 	}
 	
+	GeoPoint MapCenter;
+	public void setCenter(GeoPoint cp){
+		this.MapCenter = cp;
+	}
+	
 	@Override
 	protected boolean onTap(int index) {
 		OverlayItem item = Overlays.get(index);
 		final GeoPoint destination = item.getPoint();
-		final GeoPoint mapCenter = this.getCenter();
+		final GeoPoint mapCenter = this.MapCenter;
 
 		final String func[] = new String[] { "導航至此", "街景圖" };
 

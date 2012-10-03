@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -45,9 +46,11 @@ public class Main extends MapActivity implements LocationListener {
 	private EditText edtSearch;
 	private Button btnSearch, btnSetting;
 	
+	private SharedPreferences settings;
 	String bestProvider = "network";
 	private Location CenterPoint = null;
 	private String PlaceJSON = "";
+	private GeoPoint MapCenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,11 +64,14 @@ public class Main extends MapActivity implements LocationListener {
         btnSearch = (Button)findViewById(R.id.btnSearch);
         btnSetting = (Button)findViewById(R.id.btnSetting);
         mapView = (MapView)findViewById(R.id.mapview);
+        
+        settings = getSharedPreferences(Setting.SETTINGS, 0);
+        edtSearch.setText("宮");
+        
+        // 地圖設定
         mapView.setBuiltInZoomControls(true);	// 啟用內建的 Zoom 縮放功能
         mapView.setClickable(true);				// 啟用可 Click 功能
-        mapView.getController().setZoom(16);	// 設定地圖縮放比例為 16
-        
-        edtSearch.setText("廟");
+        mapView.getController().setZoom(16);	// 設定地圖縮放比例為 16      
         
         mLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
@@ -90,7 +96,14 @@ public class Main extends MapActivity implements LocationListener {
         	bestProvider = mLocationManager.getBestProvider(criteria, true);
         	mLocationManager.requestLocationUpdates(bestProvider, 0, 0, this);
         	
-        	CenterPoint = mLocationManager.getLastKnownLocation(bestProvider);    	
+        	CenterPoint = mLocationManager.getLastKnownLocation(bestProvider);
+        	
+        	// 若無法取得定位, 改定位到上益電腦
+        	// 上益電腦: 24.2557, 120.7205        	
+        	if (CenterPoint == null) {
+        		CenterPoint.setLatitude(24.2557);
+        		CenterPoint.setLongitude(120.7205);
+        	}
         	
         	// --------------------------------------------------------------------------
 			// 建立圖層, 產生中心地圖
@@ -118,6 +131,7 @@ public class Main extends MapActivity implements LocationListener {
         	startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
         
+        // 按鈕：搜尋
         btnSearch.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -125,12 +139,9 @@ public class Main extends MapActivity implements LocationListener {
 
 					public void run() {
 						if (CenterPoint != null) {
-			        		//SharedPreferences settings = getSharedPreferences(Setting.SETTINGS, 0);
 			        		PlaceJSON = getPlace(
 			        				String.valueOf(CenterPoint.getLatitude()) + "," + String.valueOf(CenterPoint.getLongitude()), 
-			        				//String.valueOf(settings.getInt(Setting.RADIUS, 1500)),
-			        				String.valueOf(200),
-			        				//getIntent().getExtras().getString("Search")
+			        				String.valueOf(settings.getInt(Setting.RADIUS, 1500)),
 			        				edtSearch.getText().toString());
 			        		
 			        		SearchHandler.post(SearchSB);
@@ -143,11 +154,12 @@ public class Main extends MapActivity implements LocationListener {
 			}
 		});
         
+        // 按鈕：設定
         btnSetting.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-//				Intent intent = new Intent(Main.this, Setting.class);
-//				startActivity(intent);
+				Intent intent = new Intent(Main.this, Setting.class);
+				startActivity(intent);
 			}
 		});
     }    
@@ -155,7 +167,28 @@ public class Main extends MapActivity implements LocationListener {
     private Handler SearchHandler = new Handler();
 	private Runnable SearchSB = new Runnable() {
 
-		public void run() {			
+		public void run() {
+			
+			// --------------------------------------------------------------------------
+						// 建立圖層, 產生中心地圖
+						
+						// 指定地圖中心點座標
+						GeoPoint MapCenter = new GeoPoint(
+								(int)(CenterPoint.getLatitude() * 1e6),
+								(int)(CenterPoint.getLongitude() * 1e6));
+						
+						// 設定地圖中心點
+						mapView.getController().setCenter(MapCenter);
+						
+						// 建立中心點圖層, 設定中心點圖示
+						MyItemizedOverlay CenterMapOverlay = new MyItemizedOverlay(
+								getResources().getDrawable(R.drawable.batman),
+								Main.this);
+						
+						OverlayItem CenterOverlay = new OverlayItem(MapCenter, "", "");	// 建立中心點地標
+						CenterMapOverlay.addOverlay(CenterOverlay);		// 將中心點地標加到圖層
+						mapView.getOverlays().add(CenterMapOverlay);	// 將圖層加到 MapView
+						
 			// --------------------------------------------------------------------------
 			// 建立新的圖層, 放找到的地標
 			Map<String, Object> gsonData = new LinkedHashMap();
@@ -163,12 +196,14 @@ public class Main extends MapActivity implements LocationListener {
 			
 			if (!((String) gsonData.get("status")).equals("OK")) {
 				// 找不到任何點
-				Toast.makeText(Main.this, "Zero Results", Toast.LENGTH_LONG).show();
+				Toast.makeText(Main.this, "無符合的資料", Toast.LENGTH_LONG).show();
             } else {
             	// 建立一個新圖層
             	MyItemizedOverlay ItemMapOverlay = new MyItemizedOverlay(
                 		getResources().getDrawable(R.drawable.batman_logo), 
                 		Main.this);
+						
+				ItemMapOverlay.setCenter(MapCenter);
             	
             	// 將搜尋回傳結果放到 List
 			    List result = (List) gsonData.get("results");
@@ -189,6 +224,8 @@ public class Main extends MapActivity implements LocationListener {
     					(int)(lng * 1e6));
     			    OverlayItem PlaceOverlay = new OverlayItem(PlaceGeo, (String) res.get("name"), (String) res.get("address"));
     			    ItemMapOverlay.addOverlay(PlaceOverlay);
+    			    
+    			    System.out.println(String.valueOf(i) + ". " + res.get("name"));
 			    }
 			    
 			    // 將圖層加到 MapView
@@ -202,6 +239,7 @@ public class Main extends MapActivity implements LocationListener {
 	private String getPlace(String point, String radius, String search) {
 		StringWriter SW = new StringWriter();
 		HttpURLConnection conn = null;
+		settings = getSharedPreferences(Setting.SETTINGS, 0);
 		try {
 			
 			// http://localhost/temple/agent.php?case=temple_list&search=%E5%BB%9F&locat=24.2557,120.7205&dist=0.4
@@ -209,14 +247,10 @@ public class Main extends MapActivity implements LocationListener {
 			StringBuilder urlSB = new StringBuilder();			
 			urlSB.append("http://" + getString(R.string.server_ip) + "/Temple/Agent.php");
 			urlSB.append("?case=temple_list");
-			urlSB.append("&search=" + edtSearch.getText().toString());
-			urlSB.append("&location=" + "24.2557,120.7205");
-//			if (location != null) { 
-//				urlSB.append(String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude()));
-//			}
-			urlSB.append("&dist=200");
+			urlSB.append("&search=" + encodeURIComponent(search));
+			urlSB.append("&location=" + point);
+			urlSB.append("&dist=" + radius);
 			System.out.println("urlSB = " + urlSB.toString());
-			//Toast.makeText(Main.this, urlSB.toString(), Toast.LENGTH_LONG).show();
 			URL fileURL = new URL(urlSB.toString());
 			
 			
