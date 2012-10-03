@@ -48,20 +48,11 @@
 
     </LinearLayout>
     
-	<!-- Jacky 上益  
+
 	<com.google.android.maps.MapView
 	    android:id="@+id/mapview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:apiKey="0RUY9eKj-gQPgHzUSNVlKKXTU-2HAxqAjKoke8g" />
-	-->
-    
-    <!-- Jacky 家裡 -->
-
-    <com.google.android.maps.MapView
-        android:id="@+id/mapview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:apiKey="0RUY9eKj-gQMWVVovn5bqtTH0VBsd3sU1nz_dNA" />
-
+	
 </LinearLayout>
