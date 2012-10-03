@@ -22,19 +22,19 @@ switch ($m_case) {
 	// 書本清單
 	// 回傳值: 逗號分隔的書本名稱
 	// http://localhost/temple/agent.php?case=temple_list&search=%E5%BB%9F&locat=24.2557,120.7205&dist=0.4
-	// 上益電腦: 24.2557, 120.7205
+	// 上益電腦: 24.25164, 120.72034
 	case "temple_list":
 		$m_search = $_GET['search'] ;		// 取得搜尋條件
 		$m_location = preg_split('/,/', $_GET['locat']) ;	// 取得目前座標位置
 		$m_distance = (float)$_GET['dist'] ;		// 取得距離
 		
-		if ($_GET['locat'] == "") $m_location = preg_split('/,/', "24.2557,120.7205");
-		if ($m_distance == "") $m_distance = (float)200.0;
+		if ($_GET['locat'] == "") $m_location = preg_split('/,/', "24.25164,120.72034");
+		if ($m_distance == "") $m_distance = (float)500.0;
 		
 		if ($m_search != "") {
-			$m_query = DB_QUERY("SELECT m_name,m_god,m_address,m_lat,m_lng FROM $GLOBALS[DB_TEMPLE] WHERE m_name LIKE '%$m_search%'");
+			$m_query = DB_QUERY("SELECT m_name,m_god,m_icon,m_address,m_lat,m_lng FROM $GLOBALS[DB_TEMPLE] WHERE m_name LIKE '%$m_search%'");
 		} else {
-			$m_query = DB_QUERY("SELECT m_name,m_god,m_address,m_lat,m_lng FROM $GLOBALS[DB_TEMPLE]");
+			$m_query = DB_QUERY("SELECT m_name,m_god,m_icon,m_address,m_lat,m_lng FROM $GLOBALS[DB_TEMPLE]");
 		}
 		$m_rows = mysql_num_rows($m_query);	// 取得資料筆數
 		
@@ -60,10 +60,11 @@ switch ($m_case) {
 				// http://phpwolf.blogspot.tw/2012/04/php-json.html
 				$temp['name'] = urlencode($m_q['m_name']);
 				$temp['god'] = urlencode($m_q['m_god']);
+				$temp['icon'] = urlencode($m_q['m_icon']);
 				$temp['address'] = urlencode($m_q['m_address']);
 				$temp['geometry']['location'] = array(
 					'lat' => (double)$m_q['m_lat'], 
-					'lng' => (double)$m_q['m_lng']);
+					'lng' => (double)$m_q['m_lng']);				
 					
 				array_push($json['results'], $temp);
 				$itemCount++;
