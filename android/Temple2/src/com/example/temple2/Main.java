@@ -264,10 +264,11 @@ public class Main extends MapActivity implements LocationListener {
 			// http://localhost/temple/agent.php?case=temple_list&search=%E5%BB%9F&locat=24.2557,120.7205&dist=0.4
 			// ¤W¯q¹q¸£: 24.2557, 120.7205
 			StringBuilder urlSB = new StringBuilder();			
-			urlSB.append("http://" + getString(R.string.server_ip) + "/Temple/Agent.php");
+			//urlSB.append("http://" + getString(R.string.server_ip) + "/Temple/Agent.php");
+			urlSB.append("http://temple.html-5.me/agent.php");
 			urlSB.append("?case=temple_list");
 			urlSB.append("&search=" + encodeURIComponent(search));
-			urlSB.append("&location=" + point);
+			urlSB.append("&locat=" + point);
 			urlSB.append("&dist=" + radius);
 			System.out.println("urlSB = " + urlSB.toString());
 			URL fileURL = new URL(urlSB.toString());
