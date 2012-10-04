@@ -9,7 +9,7 @@ $TmpPath = explode("/",$_SERVER["PHP_SELF"]);
 if ($_SERVER['SERVER_NAME'] == "localhost") {
 	$GLOBALS["SQL_HOST"] = "localhost";
 } else {
-	$GLOBALS["SQL_HOST"] = "localhost";
+	$GLOBALS["SQL_HOST"] = "sql203.summerhost.info";
 }
 
 // 依照目前 Server 名稱, 選擇對應的 MySQL 登入設定
@@ -18,13 +18,9 @@ if ($_SERVER["HTTP_HOST"] == "localhost") {
     $GLOBALS["SQL_USER"] = "root";
     $GLOBALS["SQL_PASS"] = "1";
 } else {
-    // $GLOBALS["SQL_NAME"] = "sum_10838368_danding_book";
-    // $GLOBALS["SQL_USER"] = "sum_10838368";
-    // $GLOBALS["SQL_PASS"] = "chenboy";
-	
-	$GLOBALS["SQL_NAME"] = "temple";
-    $GLOBALS["SQL_USER"] = "root";
-    $GLOBALS["SQL_PASS"] = "1";
+    $GLOBALS["SQL_NAME"] = "sum_10838368_temple";
+    $GLOBALS["SQL_USER"] = "sum_10838368";
+    $GLOBALS["SQL_PASS"] = "chenboy";
 }
 
 

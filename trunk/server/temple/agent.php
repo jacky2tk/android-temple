@@ -27,6 +27,7 @@ switch ($m_case) {
 		$m_search = $_GET['search'] ;		// 取得搜尋條件
 		$m_location = preg_split('/,/', $_GET['locat']) ;	// 取得目前座標位置
 		$m_distance = (float)$_GET['dist'] ;		// 取得距離
+		$MAX_ITEM_COUNT = 50;
 		
 		if ($_GET['locat'] == "") $m_location = preg_split('/,/', "24.25164,120.72034");
 		if ($m_distance == "") $m_distance = (float)500.0;
@@ -67,7 +68,11 @@ switch ($m_case) {
 					'lng' => (double)$m_q['m_lng']);				
 					
 				array_push($json['results'], $temp);
-				$itemCount++;
+				
+				// 限制回傳的最多資料筆數
+				if (++$itemCount >= $MAX_ITEM_COUNT) {
+					break;
+				}
 			}
 			
 		}
